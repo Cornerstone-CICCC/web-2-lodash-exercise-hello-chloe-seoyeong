@@ -24,25 +24,80 @@ const cities = [
 ];
 
 // GROUP ARRAY BY STATES
-const cityGroups =
+const cityGroups = _.chain(cities)
+  .groupBy('state')
+  .value();
 console.log(cityGroups)
 
 // SORT ARRAY ALPHABETICALLY BY CITY NAME
-const sortedCities =
+const sortedCities = _.chain(cities)
+  .sortBy('cityName')
+  .value();
 console.log(sortedCities)
 
 // SHOW ONLY CITIES OF CALIFORNIA
-const californiaCities =
+const californiaCities = _(cities)
+  .filter(city => city.state == 'California')
+  .map(city => {
+    return city.cityName
+  })
+  .value();
 console.log(californiaCities)
 
 // SHOW ONLY CITIES OF TEXAS WITH A POPULATION OF LESS THAN 1 MILLION
-const texasCities =
+const texasCities = _.chain(cities)
+  .filter(city => {
+    return city.state == 'Texas'
+  })
+  .filter(city => {
+    return city.population < 1000000
+  })
+  .value();
 console.log(texasCities)
 
 // ADD ALL THE POPULATION OF CALIFORNIA CITIES
-const californiaPopulation = 
-console.log(californiaCities)
+const californiaPopulation = _.chain(cities)
+  .filter(city => city.state == 'California')
+  .sumBy('population')
+  .value();
+console.log(californiaPopulation)
 
 // GROUP BY PARTY AND SHOW ONLY CITIES WITH A POPULATION ABOVE 1 MILLION. SORT CITY NAMES ALPHABETICALLY
-const newData =
+const newData = _.chain(cities)
+  .filter(city => city.population > 1000000)
+  .sortBy('cityName')
+  .groupBy('party')
+  .value();
 console.log(newData)
+
+// GROUP BY PARTY AND LIST POPULATION FOR EACH STATE
+// const populationData = _.chain(cities)
+//   .groupBy('party')
+//   .mapValue()
+
+
+  // chain
+  // groupBy
+  // mapValues
+  //   chain
+  //   groupBy
+  //   mapValues
+  //     sumBy
+  //   value
+  // value
+// const populationData = _.chain(cities)
+//   .groupBy('party')
+//   .map((party) => {
+//     const stateGroup = _.chain(party)
+//       .groupBy('state')
+//       .value();
+//     return stateGroup;
+//   })
+//   .map((statesGroup) => {
+//     const population = _.chain(statesGroup)
+//       .value();
+//     return {statesGroup};
+//   })
+//   .value();
+
+// console.log(populationData);
