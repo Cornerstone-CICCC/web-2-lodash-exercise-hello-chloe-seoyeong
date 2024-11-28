@@ -71,33 +71,18 @@ const newData = _.chain(cities)
 console.log(newData)
 
 // GROUP BY PARTY AND LIST POPULATION FOR EACH STATE
-// const populationData = _.chain(cities)
-//   .groupBy('party')
-//   .mapValue()
+const populationData = _.chain(cities)
+  .groupBy('party')
+  .mapValues((states) => {
+    const sorting = _.chain(states)
+      .groupBy('state')
+      .mapValues((groupCities) => {
+        const population = _.sumBy(groupCities, 'population')
+        return population;
+      })
+      .value();
+      return sorting;
+  })
+  .value();
 
-
-  // chain
-  // groupBy
-  // mapValues
-  //   chain
-  //   groupBy
-  //   mapValues
-  //     sumBy
-  //   value
-  // value
-// const populationData = _.chain(cities)
-//   .groupBy('party')
-//   .map((party) => {
-//     const stateGroup = _.chain(party)
-//       .groupBy('state')
-//       .value();
-//     return stateGroup;
-//   })
-//   .map((statesGroup) => {
-//     const population = _.chain(statesGroup)
-//       .value();
-//     return {statesGroup};
-//   })
-//   .value();
-
-// console.log(populationData);
+console.log(populationData);
